@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Box, Button, Textarea, useToast } from '@chakra-ui/react'
-import { submissionService } from '../api/submissionService'
+import { submissionService } from '../services/submissionService'
 
 interface SubmitCodeFormProps {
   contestId: string
@@ -23,9 +23,10 @@ export function SubmitCodeForm({ contestId, problemId }: SubmitCodeFormProps) {
       toast({ title: 'Submission queued', status: 'success' })
       setCode('')
     } catch (err: unknown) {
-      const message = err && typeof err === 'object' && 'response' in err
-        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
-        : 'Submit failed'
+      const message =
+        err && typeof err === 'object' && 'response' in err
+          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          : 'Submit failed'
       toast({ title: message || 'Submit failed', status: 'error' })
     } finally {
       setLoading(false)

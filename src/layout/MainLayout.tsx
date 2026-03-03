@@ -1,10 +1,11 @@
 import { Outlet } from 'react-router-dom'
 import { Box, Container, Heading, HStack, Link, useColorModeValue } from '@chakra-ui/react'
 import { Link as RouterLink } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { AuthMenu } from './AuthMenu'
+import { useAuth } from '@/controllers/AuthContext'
+import { AuthMenu } from '@/modules/auth'
+import { routePaths } from '@/routes/routePaths'
 
-export function Layout() {
+export function MainLayout() {
   const bg = useColorModeValue('gray.50', 'gray.900')
   const { user } = useAuth()
   return (
@@ -13,12 +14,12 @@ export function Layout() {
         <Container maxW="container.xl">
           <HStack justify="space-between">
             <Heading size="md">
-              <Link as={RouterLink} to="/">
+              <Link as={RouterLink} to={routePaths.home}>
                 TTN OJ
               </Link>
             </Heading>
             <HStack gap={4}>
-              <Link as={RouterLink} to="/contests">
+              <Link as={RouterLink} to={routePaths.contests}>
                 Contests
               </Link>
               <AuthMenu user={user} />

@@ -1,4 +1,4 @@
-import apiClient from './client'
+import { apiClient } from '@/services/api'
 
 export interface SubmissionItem {
   id: string

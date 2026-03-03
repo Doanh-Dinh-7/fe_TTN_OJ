@@ -1,14 +1,8 @@
 import { Button, HStack } from '@chakra-ui/react'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-
-interface User {
-  id: string
-  email: string
-  username: string
-  verified: boolean
-  roleId: string
-}
+import { useAuth } from '@/controllers/AuthContext'
+import { routePaths } from '@/routes/routePaths'
+import type { User } from '@/controllers/AuthContext'
 
 interface AuthMenuProps {
   user: User | null
@@ -19,7 +13,7 @@ export function AuthMenu({ user }: AuthMenuProps) {
   const { logout } = useAuth()
   const handleLogout = () => {
     logout()
-    navigate('/')
+    navigate(routePaths.home)
   }
   if (user) {
     return (
@@ -33,10 +27,10 @@ export function AuthMenu({ user }: AuthMenuProps) {
   }
   return (
     <HStack>
-      <Button as={RouterLink} to="/login" size="sm" variant="ghost">
+      <Button as={RouterLink} to={routePaths.login} size="sm" variant="ghost">
         Login
       </Button>
-      <Button as={RouterLink} to="/register" size="sm" colorScheme="blue">
+      <Button as={RouterLink} to={routePaths.register} size="sm" colorScheme="blue">
         Register
       </Button>
     </HStack>

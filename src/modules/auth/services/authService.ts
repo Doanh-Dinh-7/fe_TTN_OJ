@@ -1,4 +1,4 @@
-import apiClient from './client'
+import { apiClient } from '@/services/api'
 
 export interface LoginPayload {
   email: string
@@ -32,5 +32,8 @@ export const authService = {
       userId: res.data.user_id,
     })),
 
-  me: () => apiClient.get<{ id: string; email: string; username: string; verified: boolean; role_id: string }>('/auth/me').then((res) => res.data),
+  me: () =>
+    apiClient
+      .get<{ id: string; email: string; username: string; verified: boolean; role_id: string }>('/auth/me')
+      .then((res) => res.data),
 }

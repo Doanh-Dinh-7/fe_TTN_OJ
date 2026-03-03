@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react'
-import { authService } from '../api/authService'
+import { authService } from '@/modules/auth/services/authService'
 
-interface User {
+export interface User {
   id: string
   email: string
   username: string

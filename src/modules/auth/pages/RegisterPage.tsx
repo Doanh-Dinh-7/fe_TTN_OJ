@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import {
   Box,
   Button,
@@ -9,30 +9,31 @@ import {
   VStack,
   useToast,
 } from '@chakra-ui/react'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '@/controllers/AuthContext'
+import { routePaths } from '@/routes/routePaths'
 
-export function LoginPage() {
+export function RegisterPage() {
   const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const { login } = useAuth()
+  const { register } = useAuth()
   const navigate = useNavigate()
-  const location = useLocation()
   const toast = useToast()
-  const from = (location.state as { from?: { pathname: string } })?.from?.pathname ?? '/contests'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     try {
-      await login(email, password)
-      toast({ title: 'Logged in', status: 'success' })
-      navigate(from, { replace: true })
+      await register(email, password, username)
+      toast({ title: 'Registered', status: 'success' })
+      navigate(routePaths.contests, { replace: true })
     } catch (err: unknown) {
-      const message = err && typeof err === 'object' && 'response' in err
-        ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
-        : 'Login failed'
-      toast({ title: message || 'Login failed', status: 'error' })
+      const message =
+        err && typeof err === 'object' && 'response' in err
+          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
+          : 'Registration failed'
+      toast({ title: message || 'Registration failed', status: 'error' })
     } finally {
       setLoading(false)
     }
@@ -52,16 +53,24 @@ export function LoginPage() {
             />
           </FormControl>
           <FormControl isRequired>
+            <FormLabel>Username</FormLabel>
+            <Input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              autoComplete="username"
+            />
+          </FormControl>
+          <FormControl isRequired>
             <FormLabel>Password</FormLabel>
             <Input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
+              autoComplete="new-password"
             />
           </FormControl>
           <Button type="submit" colorScheme="blue" w="full" isLoading={loading}>
-            Login
+            Register
           </Button>
         </VStack>
       </form>
