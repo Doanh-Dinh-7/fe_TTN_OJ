@@ -12,7 +12,7 @@ export interface User {
 interface AuthContextType {
   user: User | null
   loading: boolean
-  login: (email: string, password: string) => Promise<void>
+  login: (username: string, password: string) => Promise<void>
   register: (email: string, password: string, username: string) => Promise<void>
   logout: () => void
 }
@@ -40,6 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       })
     } catch {
       localStorage.removeItem('accessToken')
+      localStorage.removeItem('refreshToken')
       setUser(null)
     } finally {
       setLoading(false)
@@ -59,25 +60,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const login = useCallback(
-    async (email: string, password: string) => {
-      const res = await authService.login({ email, password })
+    async (username: string, password: string) => {
+      const res = await authService.login({ username, password })
       localStorage.setItem('accessToken', res.accessToken)
+      localStorage.setItem('refreshToken', res.refreshToken)
       await loadUser()
     },
     [loadUser]
   )
 
-  const register = useCallback(
-    async (email: string, password: string, username: string) => {
-      const res = await authService.register({ email, password, username })
-      localStorage.setItem('accessToken', res.accessToken)
-      await loadUser()
-    },
-    [loadUser]
-  )
+  const register = useCallback(async (email: string, password: string, username: string) => {
+    await authService.register({ email, password, username })
+  }, [])
 
   const logout = useCallback(() => {
     localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
     setUser(null)
     window.dispatchEvent(new Event('auth:logout'))
   }, [])

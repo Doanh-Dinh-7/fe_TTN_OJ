@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from '@/controllers/AuthContext'
 import { MainLayout } from '@/layout'
-import { ProtectedRoute } from '@/components/ProtectedRoute'
+import { ProtectedRoute, GuestOnlyRoute, VerifyEmailRoute } from '@/components'
 import { HomePage } from '@/pages/HomePage'
 import { LoginPage, RegisterPage } from '@/modules/auth'
 import { ContestListPage, ContestDetailPage } from '@/modules/contest'
@@ -14,8 +14,9 @@ export function AppRoutes() {
     <Routes>
       <Route path={routePaths.home} element={<MainLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
+        <Route path="login" element={<GuestOnlyRoute><LoginPage /></GuestOnlyRoute>} />
+        <Route path="register" element={<GuestOnlyRoute><RegisterPage /></GuestOnlyRoute>} />
+        <Route path="verify-email" element={<GuestOnlyRoute><VerifyEmailRoute /></GuestOnlyRoute>} />
         <Route path="contests" element={<ContestListPage />} />
         <Route
           path="contests/:contestId"
