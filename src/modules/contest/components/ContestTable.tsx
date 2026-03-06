@@ -1,10 +1,10 @@
-import { Link as RouterLink } from 'react-router-dom'
-import { Link, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react'
-import { routePaths } from '@/routes/routePaths'
-import type { ContestItem } from '../services/contestService'
+import { Link as RouterLink } from "react-router-dom";
+import { Link, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { routePaths } from "@/routes/routePaths";
+import { ContestItem } from "../controllers";
 
 interface ContestTableProps {
-  contests: ContestItem[]
+  contests: ContestItem[];
 }
 
 export function ContestTable({ contests }: ContestTableProps) {
@@ -31,5 +31,5 @@ export function ContestTable({ contests }: ContestTableProps) {
         ))}
       </Tbody>
     </Table>
-  )
+  );
 }

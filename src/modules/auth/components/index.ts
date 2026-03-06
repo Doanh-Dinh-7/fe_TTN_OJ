@@ -1,1 +1,1 @@
-export { AuthMenu } from './AuthMenu'
+export { AuthMenu } from "./AuthMenu";

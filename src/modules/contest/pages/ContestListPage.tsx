@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Heading, Spinner } from "@chakra-ui/react";
-import { ContestItem, contestService } from "../services";
+import { ContestItem } from "../controllers";
+import { contestService } from "../services";
 import { ContestTable } from "../components";
 
 export function ContestListPage() {

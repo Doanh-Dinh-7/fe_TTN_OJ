@@ -6,4 +6,4 @@ export {
   AdminUsersPage,
 } from "./pages";
 export { adminService } from "./services";
-export type { AdminUser } from "./services";
+export type { AdminUser } from "./controllers";

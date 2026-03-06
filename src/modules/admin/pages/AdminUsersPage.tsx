@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -17,103 +17,114 @@ import {
   useToast,
   Badge,
   Tooltip,
-} from '@chakra-ui/react'
-import { adminService, type AdminUser } from '../services'
+} from "@chakra-ui/react";
+import { AdminUser } from "../controllers";
+import { adminService } from "../services";
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 20;
 
 export function AdminUsersPage() {
-  const [users, setUsers] = useState<AdminUser[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [skip, setSkip] = useState(0)
-  const [updatingId, setUpdatingId] = useState<string | null>(null)
-  const [roleDraft, setRoleDraft] = useState<Record<string, string>>({})
-  const toast = useToast()
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [skip, setSkip] = useState(0);
+  const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [roleDraft, setRoleDraft] = useState<Record<string, string>>({});
+  const toast = useToast();
 
   const fetchUsers = useCallback(() => {
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
     adminService
       .listUsers({ skip, limit: PAGE_SIZE })
       .then((data) => {
-        setUsers(data)
+        setUsers(data);
         setRoleDraft((prev) => {
-          const next = { ...prev }
+          const next = { ...prev };
           data.forEach((u) => {
-            if (next[u.id] === undefined) next[u.id] = u.role
-          })
-          return next
-        })
+            if (next[u.id] === undefined) next[u.id] = u.role;
+          });
+          return next;
+        });
       })
-      .catch((e) => setError(e?.response?.data?.message ?? 'Lỗi tải danh sách user'))
-      .finally(() => setLoading(false))
-  }, [skip])
+      .catch((e) =>
+        setError(e?.response?.data?.message ?? "Lỗi tải danh sách user"),
+      )
+      .finally(() => setLoading(false));
+  }, [skip]);
 
   useEffect(() => {
-    fetchUsers()
-  }, [fetchUsers])
+    fetchUsers();
+  }, [fetchUsers]);
 
   const handleLock = (user: AdminUser) => {
-    if (user.locked) return
-    setUpdatingId(user.id)
+    if (user.locked) return;
+    setUpdatingId(user.id);
     adminService
       .lockUser(user.id)
       .then(() => {
-        toast({ title: 'Đã khóa user', status: 'success', isClosable: true })
-        fetchUsers()
+        toast({ title: "Đã khóa user", status: "success", isClosable: true });
+        fetchUsers();
       })
       .catch((e) => {
         toast({
-          title: e?.response?.data?.message ?? 'Không thể khóa',
-          status: 'error',
+          title: e?.response?.data?.message ?? "Không thể khóa",
+          status: "error",
           isClosable: true,
-        })
+        });
       })
-      .finally(() => setUpdatingId(null))
-  }
+      .finally(() => setUpdatingId(null));
+  };
 
   const handleUnlock = (user: AdminUser) => {
-    if (!user.locked) return
-    setUpdatingId(user.id)
+    if (!user.locked) return;
+    setUpdatingId(user.id);
     adminService
       .unlockUser(user.id)
       .then(() => {
-        toast({ title: 'Đã mở khóa user', status: 'success', isClosable: true })
-        fetchUsers()
+        toast({
+          title: "Đã mở khóa user",
+          status: "success",
+          isClosable: true,
+        });
+        fetchUsers();
       })
       .catch((e) => {
         toast({
-          title: e?.response?.data?.message ?? 'Không thể mở khóa',
-          status: 'error',
+          title: e?.response?.data?.message ?? "Không thể mở khóa",
+          status: "error",
           isClosable: true,
-        })
+        });
       })
-      .finally(() => setUpdatingId(null))
-  }
+      .finally(() => setUpdatingId(null));
+  };
 
   const handleRoleChange = (user: AdminUser) => {
-    const newRole = (roleDraft[user.id] ?? user.role) as 'admin' | 'user'
-    if (newRole === user.role) return
-    setUpdatingId(user.id)
+    const newRole = (roleDraft[user.id] ?? user.role) as "admin" | "user";
+    if (newRole === user.role) return;
+    setUpdatingId(user.id);
     adminService
       .setUserRole(user.id, newRole)
       .then(() => {
-        toast({ title: 'Đã cập nhật quyền', status: 'success', isClosable: true })
-        fetchUsers()
+        toast({
+          title: "Đã cập nhật quyền",
+          status: "success",
+          isClosable: true,
+        });
+        fetchUsers();
       })
       .catch((e) => {
         toast({
-          title: e?.response?.data?.message ?? 'Không thể đổi quyền',
-          status: 'error',
+          title: e?.response?.data?.message ?? "Không thể đổi quyền",
+          status: "error",
           isClosable: true,
-        })
+        });
       })
-      .finally(() => setUpdatingId(null))
-  }
+      .finally(() => setUpdatingId(null));
+  };
 
-  if (loading && users.length === 0) return <Spinner size="xl" />
-  if (error && users.length === 0) return <Text color="red.500">{error}</Text>
+  if (loading && users.length === 0) return <Spinner size="xl" />;
+  if (error && users.length === 0) return <Text color="red.500">{error}</Text>;
 
   return (
     <Box>
@@ -151,7 +162,12 @@ export function AdminUsersPage() {
                       width="auto"
                       minW="24"
                       value={roleDraft[u.id] ?? u.role}
-                      onChange={(e) => setRoleDraft((prev) => ({ ...prev, [u.id]: e.target.value }))}
+                      onChange={(e) =>
+                        setRoleDraft((prev) => ({
+                          ...prev,
+                          [u.id]: e.target.value,
+                        }))
+                      }
                       isDisabled={!!updatingId}
                     >
                       <option value="user">user</option>
@@ -163,7 +179,8 @@ export function AdminUsersPage() {
                       onClick={() => handleRoleChange(u)}
                       isLoading={updatingId === u.id}
                       isDisabled={
-                        (roleDraft[u.id] ?? u.role) === u.role || updatingId !== null
+                        (roleDraft[u.id] ?? u.role) === u.role ||
+                        updatingId !== null
                       }
                     >
                       Áp dụng
@@ -232,5 +249,5 @@ export function AdminUsersPage() {
         </Button>
       </HStack>
     </Box>
-  )
+  );
 }

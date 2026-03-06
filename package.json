@@ -5,6 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "check": "npm run lint && npm run format:check && npm run build",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
@@ -20,11 +25,19 @@
     "react-router-dom": "^6.21.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.3",
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
     "@vitejs/plugin-react": "^4.2.1",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.4.0",
+    "prettier": "^3.8.1",
     "typescript": "^5.3.3",
+    "typescript-eslint": "^8.56.1",
     "vite": "^5.0.11"
   }
 }

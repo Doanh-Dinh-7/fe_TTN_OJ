@@ -1,20 +1,34 @@
-import { apiClient } from '@/services/api'
+import { apiClient } from "@/services/api";
 
 export interface SubmissionItem {
-  id: string
-  problemId: string
-  status: string
-  score: number
-  createdAt: string
+  id: string;
+  problemId: string;
+  status: string;
+  score: number;
+  createdAt: string;
 }
 
 export const submissionService = {
-  create: (contestId: string, problemId: string, code: string, language = 'python') =>
+  create: (
+    contestId: string,
+    problemId: string,
+    code: string,
+    language = "python",
+  ) =>
     apiClient
-      .post<{ id: string; problem_id: string; contest_id: string; status: string; score: number; created_at: string }>(
-        '/submissions',
-        { contest_id: contestId, problem_id: problemId, code, language }
-      )
+      .post<{
+        id: string;
+        problem_id: string;
+        contest_id: string;
+        status: string;
+        score: number;
+        created_at: string;
+      }>("/submissions", {
+        contest_id: contestId,
+        problem_id: problemId,
+        code,
+        language,
+      })
       .then((res) => ({
         id: res.data.id,
         problemId: res.data.problem_id,
@@ -25,11 +39,13 @@ export const submissionService = {
       })),
 
   getById: (submissionId: string) =>
-    apiClient.get<Record<string, unknown>>(`/submissions/${submissionId}`).then((res) => res.data),
+    apiClient
+      .get<Record<string, unknown>>(`/submissions/${submissionId}`)
+      .then((res) => res.data),
 
   listMy: (contestId: string, problemId?: string) =>
     apiClient
-      .get<{ submissions: Array<Record<string, unknown>> }>('/submissions', {
+      .get<{ submissions: Array<Record<string, unknown>> }>("/submissions", {
         params: { contest_id: contestId, problem_id: problemId },
       })
       .then((res) =>
@@ -39,6 +55,6 @@ export const submissionService = {
           status: s.status,
           score: s.score,
           createdAt: s.created_at,
-        }))
+        })),
       ),
-}
+};

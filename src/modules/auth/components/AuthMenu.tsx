@@ -7,7 +7,11 @@ import type { AuthMenuProps } from "../controllers/types";
 const headerButtonProps = {
   color: "white",
   borderColor: "whiteAlpha.400",
-  _hover: { bg: "whiteAlpha.200", borderColor: "whiteAlpha.600", color: "white" },
+  _hover: {
+    bg: "whiteAlpha.200",
+    borderColor: "whiteAlpha.600",
+    color: "white",
+  },
 } as const;
 
 export function AuthMenu({ user, inHeader }: AuthMenuProps) {

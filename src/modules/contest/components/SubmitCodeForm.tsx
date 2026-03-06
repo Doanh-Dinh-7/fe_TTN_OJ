@@ -1,37 +1,38 @@
-import { useState } from 'react'
-import { Box, Button, Textarea, useToast } from '@chakra-ui/react'
-import { submissionService } from '../services/submissionService'
+import { useState } from "react";
+import { Box, Button, Textarea, useToast } from "@chakra-ui/react";
+import { submissionService } from "../services/submissionService";
 
 interface SubmitCodeFormProps {
-  contestId: string
-  problemId: string
+  contestId: string;
+  problemId: string;
 }
 
 export function SubmitCodeForm({ contestId, problemId }: SubmitCodeFormProps) {
-  const [code, setCode] = useState('')
-  const [loading, setLoading] = useState(false)
-  const toast = useToast()
+  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
 
   const handleSubmit = async () => {
     if (!code.trim()) {
-      toast({ title: 'Enter code', status: 'warning' })
-      return
+      toast({ title: "Enter code", status: "warning" });
+      return;
     }
-    setLoading(true)
+    setLoading(true);
     try {
-      await submissionService.create(contestId, problemId, code, 'python')
-      toast({ title: 'Submission queued', status: 'success' })
-      setCode('')
+      await submissionService.create(contestId, problemId, code, "python");
+      toast({ title: "Submission queued", status: "success" });
+      setCode("");
     } catch (err: unknown) {
       const message =
-        err && typeof err === 'object' && 'response' in err
-          ? (err as { response?: { data?: { message?: string } } }).response?.data?.message
-          : 'Submit failed'
-      toast({ title: message || 'Submit failed', status: 'error' })
+        err && typeof err === "object" && "response" in err
+          ? (err as { response?: { data?: { message?: string } } }).response
+              ?.data?.message
+          : "Submit failed";
+      toast({ title: message || "Submit failed", status: "error" });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Box>
@@ -47,5 +48,5 @@ export function SubmitCodeForm({ contestId, problemId }: SubmitCodeFormProps) {
         Submit
       </Button>
     </Box>
-  )
+  );
 }

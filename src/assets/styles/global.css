@@ -1,9 +1,9 @@
 /* Global styles - shared across project */
 @font-face {
-  font-family: 'Paris2024';
-  src        : url('../fonts/Paris2024-Black.ttf') format('truetype');
+  font-family: "Paris2024";
+  src: url("../fonts/Paris2024-Black.ttf") format("truetype");
   font-weight: 900;
-  font-style : normal;
+  font-style: normal;
 }
 
 :root {
