@@ -14,7 +14,7 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
     return <Navigate to={routePaths.login} state={{ from: location }} replace />
   }
   if (allowedRoles && allowedRoles.length > 0) {
-    const role = user.roleId
+    const role = user.role ?? 'user'
     if (!allowedRoles.includes(role)) {
       return <Navigate to={routePaths.home} replace />
     }

@@ -1,7 +1,2 @@
-export {
-  contestService,
-  type ContestItem,
-  type ContestDetail,
-  type ContestProblem,
-} from './contestService'
-export { submissionService, type SubmissionItem } from './submissionService'
+export { contestService } from "./contestService";
+export { submissionService } from "./submissionService";

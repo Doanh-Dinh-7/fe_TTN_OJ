@@ -1,1 +1,1 @@
-/** Contest module controllers / hooks - e.g. useContestList, useContestDetail */
+export type { ContestItem, ContestDetail, ContestProblem } from "./types";

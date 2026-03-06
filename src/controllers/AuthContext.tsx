@@ -7,6 +7,7 @@ export interface User {
   username: string
   verified: boolean
   roleId: string
+  role: string
 }
 
 interface AuthContextType {
@@ -37,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         username: me.username,
         verified: me.verified,
         roleId: me.role_id,
+        role: me.role ?? 'user',
       })
     } catch {
       localStorage.removeItem('accessToken')

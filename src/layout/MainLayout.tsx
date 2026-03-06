@@ -87,6 +87,20 @@ export function MainLayout() {
               >
                 Contests
               </Link>
+              {user?.role === "admin" && (
+                <Link
+                  as={RouterLink}
+                  to={routePaths.admin}
+                  color="white"
+                  fontWeight="medium"
+                  _hover={{
+                    color: "whiteAlpha.900",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Admin
+                </Link>
+              )}
               <AuthMenu user={user} inHeader />
             </HStack>
           </HStack>

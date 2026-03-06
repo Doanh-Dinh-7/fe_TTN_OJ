@@ -35,6 +35,7 @@ export const authService = {
         username: string;
         verified: boolean;
         role_id: string;
+        role: string;
       }>("/auth/me")
       .then((res) => res.data),
 };

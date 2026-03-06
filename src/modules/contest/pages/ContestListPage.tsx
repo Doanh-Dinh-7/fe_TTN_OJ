@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react'
-import { Box, Heading, Spinner } from '@chakra-ui/react'
-import { contestService, type ContestItem } from '../services/contestService'
-import { ContestTable } from '../components/ContestTable'
+import { useEffect, useState } from "react";
+import { Box, Heading, Spinner } from "@chakra-ui/react";
+import { ContestItem, contestService } from "../services";
+import { ContestTable } from "../components";
 
 export function ContestListPage() {
-  const [contests, setContests] = useState<ContestItem[]>([])
-  const [loading, setLoading] = useState(true)
+  const [contests, setContests] = useState<ContestItem[]>([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     contestService
       .list(false)
       .then(setContests)
       .catch(() => setContests([]))
-      .finally(() => setLoading(false))
-  }, [])
+      .finally(() => setLoading(false));
+  }, []);
 
-  if (loading) return <Spinner />
+  if (loading) return <Spinner />;
   return (
     <Box>
       <Heading size="md" mb={4}>
@@ -22,5 +22,5 @@ export function ContestListPage() {
       </Heading>
       <ContestTable contests={contests} />
     </Box>
-  )
+  );
 }
